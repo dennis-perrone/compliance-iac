@@ -1,0 +1,3 @@
+# Include local state for bootstrap module backend resources can be managed.
+!terraform.tfstate
+!terraform.tfstate.backup
