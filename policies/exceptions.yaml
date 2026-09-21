@@ -1,0 +1,32 @@
+## Exception / Waiver Registry
+##
+## Each entry documents a justified deviation from a KSI policy.
+## Exceptions are time-bound and must include a rationale, approver, and expiration.
+## The persistent validation pipeline reads this file and skips matching resources.
+## Expired exceptions are flagged as violations.
+##
+## Schema:
+##   - resource: Terraform resource address (e.g., module.vpc.aws_security_group.public)
+##     ksi: KSI code (e.g., KSI-CNA-RNT)
+##     policy: Rego package (e.g., cna.restricting_network_traffic)
+##     rationale: Why this exception is justified
+##     approved_by: Name or role of the approver
+##     granted: Date the exception was granted (YYYY-MM-DD)
+##     expires: Date the exception expires (YYYY-MM-DD)
+##     ticket: Link to tracking ticket
+
+exceptions: []
+
+## Example:
+# exceptions:
+#   - resource: module.vpc.aws_security_group.public_web
+#     ksi: KSI-CNA-RNT
+#     policy: cna.restricting_network_traffic
+#     rationale: >-
+#       Public-facing web tier requires port 80 open for HTTP-to-HTTPS redirect
+#       handled at the ALB level. Traffic is immediately redirected; no plaintext
+#       content is served.
+#     approved_by: Security Lead
+#     granted: "2026-09-01"
+#     expires: "2027-03-01"
+#     ticket: https://github.com/org/compliance-iac/issues/42
