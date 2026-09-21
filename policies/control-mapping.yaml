@@ -1,0 +1,199 @@
+ksi-svc-sin:
+  name: Securing Information
+  theme: Service Configuration
+  description: >-
+    Information is encrypted or otherwise secured from unwanted access
+    or modification.
+  policies:
+    - rego/svc/securing_information.rego
+  terraform_modules:
+    - modules/vpc
+    - modules/kms
+
+ksi-svc-acm:
+  name: Automating Configuration Management
+  theme: Service Configuration
+  description: >-
+    The configuration of machine-based information resources is managed
+    using automation and persistently reviewed for drift.
+  policies:
+    - rego/svc/automating_config_management.rego
+  evidence:
+    - Terraform drift detection in persistent validation workflow
+    - terraform-drift.json evidence artifacts
+  terraform_modules:
+    - modules/config
+    - modules/evidence-store
+
+ksi-svc-asm:
+  name: Automating Secret Management
+  theme: Service Configuration
+  description: >-
+    Management, protection, and regular rotation of digital keys, certificates,
+    and other secrets is automated and persistently reviewed.
+  policies:
+    - rego/svc/automating_secret_management.rego
+  terraform_modules:
+    - modules/kms
+    - modules/secretsmanager
+
+ksi-cna-rnt:
+  name: Restricting Network Traffic
+  theme: Cloud Native Architecture
+  description: >-
+    Machine-based information resources are persistently reviewed to ensure
+    they are appropriately configured to limit inbound and outbound network
+    traffic.
+  policies:
+    - rego/cna/restricting_network_traffic.rego
+  terraform_modules:
+    - modules/vpc
+
+ksi-cna-mat:
+  name: Minimizing Attack Surface
+  theme: Cloud Native Architecture
+  description: >-
+    Machine-based information resources are persistently reviewed to ensure
+    they have a minimal attack surface and that lateral movement is minimized
+    if compromised.
+  policies:
+    - rego/cna/minimizing_attack_surface.rego
+  terraform_modules:
+    - modules/guardduty
+    - modules/securityhub
+
+ksi-cna-uln:
+  name: Using Logical Networking
+  theme: Cloud Native Architecture
+  description: >-
+    Logical networking and related capabilities are used and persistently
+    reviewed to enforce traffic flow controls.
+  policies:
+    - rego/cna/using_logical_networking.rego
+  terraform_modules:
+    - modules/vpc
+
+ksi-cna-rvp:
+  name: Reviewing Protections
+  theme: Cloud Native Architecture
+  description: >-
+    The effectiveness of protection against denial of service attacks and
+    other unwanted activity for machine-based information resources is
+    persistently reviewed.
+  policies:
+    - rego/cna/reviewing_protections.rego
+
+ksi-iam-elp:
+  name: Ensuring Least Privilege
+  theme: Identity and Access Management
+  description: >-
+    Identity and access management measures are used and persistently reviewed
+    to ensure each user or device can only access the resources they need.
+  policies:
+    - rego/iam/ensuring_least_privilege.rego
+  terraform_modules:
+    - modules/iam
+
+ksi-iam-aam:
+  name: Automating Account Management
+  theme: Identity and Access Management
+  description: >-
+    The lifecycle and privileges of all accounts, roles, and groups are
+    securely managed using automation.
+  policies:
+    - rego/iam/automating_account_management.rego
+  terraform_modules:
+    - modules/iam
+
+ksi-iam-apm:
+  name: Adopting Passwordless Methods
+  theme: Identity and Access Management
+  description: >-
+    Secure passwordless methods are used for user authentication and
+    authorization when feasible, otherwise strong passwords with
+    phishing-resistant MFA is used.
+  policies:
+    - rego/iam/adopting_passwordless_methods.rego
+  terraform_modules:
+    - modules/iam
+
+ksi-iam-snu:
+  name: Securing Non-User Authentication
+  theme: Identity and Access Management
+  description: >-
+    Appropriately secure authentication methods are used and persistently
+    reviewed for non-user accounts and services.
+  policies:
+    - rego/iam/securing_non_user_auth.rego
+
+ksi-mla-let:
+  name: Logging Event Types
+  theme: Monitoring, Logging, and Auditing
+  description: >-
+    A list of information resources and event types that will be logged,
+    monitored, and audited is maintained and persistently reviewed to ensure
+    these activities occur.
+  policies:
+    - rego/mla/logging_event_types.rego
+  terraform_modules:
+    - modules/vpc
+    - modules/cloudwatch
+
+ksi-mla-evc:
+  name: Evaluating Configurations
+  theme: Monitoring, Logging, and Auditing
+  description: >-
+    The configuration of machine-based information resources, especially
+    infrastructure as code, is persistently evaluated and tested.
+  policies:
+    - rego/mla/evaluating_configurations.rego
+  evidence:
+    - GitHub Actions conftest pipeline execution logs
+    - Persistent validation workflow (every 2 days)
+
+ksi-mla-osm:
+  name: Operating SIEM Capability
+  theme: Monitoring, Logging, and Auditing
+  description: >-
+    A Security Information and Event Management (SIEM) or similar system(s)
+    is used and persistently reviewed for centralized, tamper-resistant
+    logging of events, activities, and changes.
+  policies:
+    - rego/mla/operating_siem.rego
+  terraform_modules:
+    - modules/securityhub
+    - modules/cloudwatch
+
+ksi-mla-rvl:
+  name: Reviewing Logs
+  theme: Monitoring, Logging, and Auditing
+  description: >-
+    Logs are persistently reviewed and audited.
+  evidence:
+    - Persistent validation workflow audit logs
+    - Evidence artifacts stored in S3
+
+ksi-rpl-abo:
+  name: Aligning Backups with Objectives
+  theme: Recovery Planning
+  description: >-
+    The alignment of machine-based information resource backups with defined
+    recovery objectives is persistently reviewed.
+  policies:
+    - rego/rpl/aligning_backups.rego
+  terraform_modules:
+    - modules/backup
+
+ksi-inr-rir:
+  name: Reviewing Incident Response Procedures
+  theme: Incident Response
+  description: >-
+    The effectiveness of documented incident response procedures is
+    persistently reviewed.
+  terraform_modules:
+    - modules/sns
+    - modules/cloudwatch
+  evidence:
+    - SNS security alert topics
+    - CloudWatch alarms for critical events
+    - EventBridge rules for GuardDuty findings
