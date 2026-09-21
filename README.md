@@ -45,7 +45,7 @@ compliance-iac/
 │   ├── upload_evidence.py          # Push evidence to S3
 │   ├── generate_cert_package.py    # Generate FedRAMP Certification Package
 │   └── generate_ocr.py             # Generate Ongoing Certification Report
-├── reports/
+└── reports/
     └── templates/
         └── ongoing-certification-report.md  # Quarterly OCR template
 ```
